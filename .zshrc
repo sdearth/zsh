@@ -107,6 +107,27 @@ source "$ZDOTDIR/plugins.zsh"
 # Prompt/theme
 source "$ZDOTDIR/prompt.zsh"
 
+# =========================================================
+# Shell titles
+# =========================================================
+# Function to set the title
+set_title() {
+  echo -ne "\e]0;$1\a"
+}
+
+# Before running a command: set title to the command name
+preexec() {
+  # $1 contains the exact command typed
+  set_title "$1"
+}
+
+# After the command finishes: reset title to the current directory name
+precmd() {
+  set_title "${PWD##*/}"
+}
+
+# add 1Password cli completion
+eval "$(op completion zsh)"; compdef _op op
 
 # =========================================================
 # Node / NVM
